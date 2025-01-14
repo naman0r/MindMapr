@@ -15,22 +15,25 @@ if (!process.env.MONGO_URI) {
 
 // Connect to MongoDB
 mongoose
-  .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => {
     console.error("Failed to connect to MongoDB:", err);
     process.exit(1);
   });
 
+// Import Routes
+const mindmapRoutes = require("./routes/mindmapRoutes");
+
+// Register Routes
+app.use("/api/mindmaps", mindmapRoutes);
+
 // Test Route
 app.get("/", (req, res) => {
   res.send("MindMapr Backend is running!");
 });
 
-// Route Not Found Handler
+// Route Not Found Handler (should be last)
 app.use((req, res, next) => {
   res.status(404).json({ message: "Route not found" });
 });
