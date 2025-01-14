@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import TopNav from "../components/TopNav";
 
 function MindMapForm() {
   const [title, setTitle] = useState("");
@@ -16,6 +17,7 @@ function MindMapForm() {
       .catch((error) => console.error("Error fetching mind maps:", error));
   }, []);
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -40,27 +42,47 @@ function MindMapForm() {
     }
   };
 
+  // Handle delete request
+  const handleDelete = async (id) => {
+    try {
+      await fetch(`http://localhost:5001/api/mindmaps/${id}`, {
+        method: "DELETE",
+      });
+
+      // Update the list of mind maps
+      setMindMaps((prevMindMaps) =>
+        prevMindMaps.filter((map) => map._id !== id)
+      );
+    } catch (error) {
+      console.error("Error deleting mind map:", error);
+    }
+  };
+
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <h2>Create a New Mind Map</h2>
-        <input
-          type="text"
-          placeholder="Enter title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <button type="submit">Create Mind Map</button>
-      </form>
+      <TopNav />
+      <div>
+        <form onSubmit={handleSubmit}>
+          <h2>Create a New Mind Map</h2>
+          <input
+            type="text"
+            placeholder="Enter title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <button type="submit">Create Mind Map</button>
+        </form>
 
-      <h2>Mind Maps</h2>
-      <ul>
-        {mindMaps.map((map) => (
-          <li key={map._id}>
-            <strong>{map.title}</strong>
-          </li>
-        ))}
-      </ul>
+        <h2>Mind Maps</h2>
+        <ul>
+          {mindMaps.map((map) => (
+            <li key={map._id}>
+              <strong>{map.title}</strong>
+              <button onClick={() => handleDelete(map._id)}>Delete</button>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import "./App.css";
-import MindMapForm from "./MindMapForm";
+import "../styles/App.css";
+import TopNav from "../components/TopNav";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="App">
       <h1>MindMapr</h1>
-      <MindMapForm />
+      <TopNav />
     </div>
   );
 }

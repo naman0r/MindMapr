@@ -1,0 +1,42 @@
+/* styles/TopNav.css*/
+
+/* Reset body margins and paddings */
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* TopNav styling */
+.topnav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #37b5ff;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 10px 10px 0px;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 90%);
+  z-index: 1000;
+}
+
+.topnav-left {
+  margin: 0px 0px 0px 50px;
+}
+
+.menu-icon,
+.profile-icon {
+  font-size: 30px;
+  cursor: pointer;
+  padding: 0px 50px 0px 0px;
+}
+
+.logo-container {
+  text-align: center;
+}
+
+.logo-container h1 {
+  margin: 0;
+  font-size: 28px;
+}

@@ -15,7 +15,7 @@ if (!process.env.MONGO_URI) {
 
 // Connect to MongoDB
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(process.env.MONGO_URI) // this line actually connects the backend to the cluster I just set up on MongoDB atlas
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => {
     console.error("Failed to connect to MongoDB:", err);

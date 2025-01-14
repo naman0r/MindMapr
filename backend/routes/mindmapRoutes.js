@@ -12,6 +12,7 @@ router.get("/", async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
 router.post("/", async (req, res) => {
   console.log("POST request received"); // ✅ Log when the route is hit
   console.log("Request body:", req.body); // ✅ Log the request body
