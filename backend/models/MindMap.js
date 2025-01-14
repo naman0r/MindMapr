@@ -1,4 +1,12 @@
-const mongoose = require("mongoose");
+/**
+ * In MongoDB, data is stored in documents (similar to rows in SQL).
+ *  We need a schema to define the structure of a mind map document.
+ * This is done using Mongoose.
+ *
+ *
+ */
+
+const mongoose = require("mongoose"); // import mongoose
 
 const MindMapSchema = new mongoose.Schema({
   title: {
