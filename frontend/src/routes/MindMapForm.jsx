@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import TopNav from "../components/TopNav";
+import { createBrowserRouter, RouterProvider } from "react-router-dom"; // ✅ Correct import
+import { Link } from "react-router-dom"; // ✅ Add Link for navigation
 
 function MindMapForm() {
   const [title, setTitle] = useState("");

@@ -3,6 +3,8 @@ import "../styles/App.css";
 import TopNav from "../components/TopNav";
 import "../styles/HomePage.css";
 import Footer from "../components/Footer.jsx";
+import { createBrowserRouter, RouterProvider } from "react-router-dom"; // ✅ Correct import
+import { Link } from "react-router-dom"; // ✅ Add Link for navigation
 
 function HomePage() {
   return (
