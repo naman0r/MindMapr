@@ -1,28 +1,26 @@
 import React from "react";
-import "../styles/App.css";
-import TopNav from "../components/TopNav";
 import "../styles/HomePage.css";
-import Footer from "../components/Footer.jsx";
-import { createBrowserRouter, RouterProvider } from "react-router-dom"; // ✅ Correct import
-import { Link } from "react-router-dom"; // ✅ Add Link for navigation
+import TopNav from "../components/TopNav";
+import Footer from "../components/Footer";
+import { Link } from "react-router-dom";
 
 function HomePage() {
   return (
     <div className="homepage-container">
       <TopNav />
 
-      <main>
+      <main className="main-content">
         <h2>Welcome Back, User!</h2>
-        <p>ready to create your next Mind Map? </p>
+        <p>Ready to create your next Mind Map?</p>
 
         <div className="mindmap-grid">
-          <div className="mindmap-card create-new">
+          <Link to="/new" className="mindmap-card create-new">
             <span>+</span>
-            <p>create new</p>
-          </div>
-          <div className="mindmap-card">old 1</div>
-          <div className="mindmap-card">old 2</div>
-          <div className="mindmap-card">old 3</div>
+            <p>Create new</p>
+          </Link>
+          <div className="mindmap-card">Old 1</div>
+          <div className="mindmap-card">Old 2</div>
+          <div className="mindmap-card">Old 3</div>
         </div>
       </main>
 

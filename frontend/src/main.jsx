@@ -7,11 +7,13 @@ import App from "./routes/App.jsx";
 import HomePage from "./routes/HomePage.jsx";
 import MindMapForm from "./routes/MindMapForm.jsx";
 import BlankTemplate from "./routes/BlankTemplate.jsx";
+import NewMM from "./routes/NewMM.jsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <HomePage /> },
   { path: "/app", element: <App /> },
   { path: "/form", element: <MindMapForm /> },
+  { path: "/new", element: <NewMM /> },
 ]);
 
 createRoot(document.getElementById("root")).render(
