@@ -8,6 +8,7 @@
 
 const mongoose = require("mongoose"); // import mongoose
 
+// define the mind map schema
 const MindMapSchema = new mongoose.Schema({
   title: {
     type: String,

@@ -1,9 +1,15 @@
+// Import necessary modules
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 
+const mindmapRoutes = require("./routes/mindmapRoutes");
+
+// Initialize express app
 const app = express();
+
+// Middleware
 app.use(express.json());
 app.use(cors());
 
@@ -15,25 +21,22 @@ if (!process.env.MONGO_URI) {
 
 // Connect to MongoDB
 mongoose
-  .connect(process.env.MONGO_URI) // this line actually connects the backend to the cluster I just set up on MongoDB atlas
+  .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => {
     console.error("Failed to connect to MongoDB:", err);
     process.exit(1);
   });
 
-// Import Routes
-const mindmapRoutes = require("./routes/mindmapRoutes");
-
-// Register Routes
+// Register routes
 app.use("/api/mindmaps", mindmapRoutes);
 
-// Test Route
+// Test route
 app.get("/", (req, res) => {
   res.send("MindMapr Backend is running!");
 });
 
-// Route Not Found Handler (should be last)
+// Route not found handler
 app.use((req, res, next) => {
   res.status(404).json({ message: "Route not found" });
 });
