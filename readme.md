@@ -94,5 +94,3 @@ technologies used:
 
 - Visualization:
   - figureout a library to use (ideas currently are react-flow-renderer)
-
-tf
