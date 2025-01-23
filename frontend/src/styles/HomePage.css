@@ -1,8 +1,9 @@
 .homepage-container {
-  padding: 20px;
+  padding: 150px 20px 100px 20px;
   text-align: center;
   background-color: #1e1e1e;
   color: white;
+  width: 100%;
 }
 
 .mindmap-grid {
@@ -14,6 +15,7 @@
 
 .mindmap-card {
   background-color: #ececec;
+  color: black;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);

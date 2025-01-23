@@ -16,35 +16,35 @@ function HomePage() {
   }, []);
 
   return (
-    <div className="homepage-container">
+    <>
       <TopNav />
+      <div className="homepage-container">
+        <main>
+          <h2>Welcome Back, User!</h2>
+          <p>Ready to create your next Mind Map?</p>
 
-      <main>
-        <h2>Welcome Back, User!</h2>
-        <p>Ready to create your next Mind Map?</p>
+          <div className="mindmap-grid">
+            {/* "Create New" Card */}
+            <Link to="/new" className="mindmap-card create-new">
+              <span>+</span>
+              <p>Create New</p>
+            </Link>
 
-        <div className="mindmap-grid">
-          {/* "Create New" Card */}
-          <Link to="/new" className="mindmap-card create-new">
-            <span>+</span>
-            <p>Create New</p>
-          </Link>
-
-          {/* Render Existing Mind Maps */}
-          {mindMaps.map((map) => (
-            <div key={map._id} className="mindmap-card">
-              <h3>{map.title}</h3>
-              <p>{map.nodes.length} nodes</p>
-              <Link to={`/mindmap/${map._id}`} className="view-button">
-                View Mind Map
-              </Link>
-            </div>
-          ))}
-        </div>
-      </main>
-
+            {/* Render Existing Mind Maps */}
+            {mindMaps.map((map) => (
+              <div key={map._id} className="mindmap-card">
+                <h3>{map.title}</h3>
+                <p>{map.nodes.length} nodes</p>
+                <Link to={`/mindmap/${map._id}`} className="view-button">
+                  View Mind Map
+                </Link>
+              </div>
+            ))}
+          </div>
+        </main>
+      </div>
       <Footer />
-    </div>
+    </>
   );
 }
 

@@ -7,16 +7,25 @@ function NewMM() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleGenerateMindMap = async () => {
+  // Handle the form submission
+  const handleGenerateMindMap = async (event) => {
+    event.preventDefault(); // Prevent default form submit
+    setLoading(true);
+
     try {
-      const response = await fetch("http://localhost:5001/mindmaps", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          title: mindMapTitle,
-          content: notesContent,
-        }),
-      });
+      const response = await fetch(
+        "http://localhost:5001/api/mindmaps/generate",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            // The backend expects { notes: "...user text..." }
+            notes: notes,
+          }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to generate mind map.");
@@ -25,9 +34,14 @@ function NewMM() {
       const data = await response.json();
       console.log("Mind map generated:", data);
       alert("Mind map generated successfully!");
+
+      // Optionally navigate somewhere, e.g., back to the homepage or a MindMapView
+      // navigate("/");
     } catch (error) {
       console.error("Error generating mind map:", error.message);
       alert(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
