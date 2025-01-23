@@ -7,15 +7,15 @@ const router = express.Router();
 const MindMap = require("../models/MindMap");
 const openai = require("openai");
 
-// ✅ Initialize OpenAI API once
+//  Initialize OpenAI API once
 const openaiClient = new openai.OpenAIApi(
   new openai.Configuration({
     apiKey: process.env.OPENAI_API_KEY,
   })
 );
 
-// ✅ @route POST /api/mindmaps/generate
-// ✅ @desc Generate a mind map using OpenAI and save it to MongoDB
+//  @route POST /api/mindmaps/generate
+//  @desc Generate a mind map using OpenAI and save it to MongoDB
 router.post("/generate", async (req, res) => {
   const { notes } = req.body;
 
@@ -24,25 +24,13 @@ router.post("/generate", async (req, res) => {
   }
 
   try {
-    // 🧠 Send user notes to OpenAI API
     const completion = await openaiClient.createChatCompletion({
       model: "gpt-4",
       messages: [
         {
           role: "system",
-          content: `You are a mind map generator. Return a structured mind map in this JSON format:
-
-          {
-            "title": "string",
-            "nodes": [
-              { "id": "string", "label": "string" }
-            ],
-            "edges": [
-              { "from": "string", "to": "string" }
-            ]
-          }
-
-          All data must be valid JSON.`,
+          content:
+            "You are a mind map generator. Based on the user's notes, generate a JSON object with two arrays: 'nodes' and 'edges'. The 'nodes' array should include objects with 'id' (unique identifier) and 'label' (text). The 'edges' array should include objects with 'from' and 'to' fields referencing node IDs from the 'nodes' array.",
         },
         {
           role: "user",
@@ -51,42 +39,24 @@ router.post("/generate", async (req, res) => {
       ],
     });
 
-    // ✅ Check if the response is valid
-    if (
-      !completion.data ||
-      !completion.data.choices ||
-      completion.data.choices.length === 0
-    ) {
-      return res.status(500).json({ message: "Invalid response from OpenAI." });
-    }
+    let mindMapData = JSON.parse(completion.data.choices[0].message.content);
 
-    // ✅ Parse the AI-generated mind map
-    const mindMapData = completion.data.choices[0].message.content;
+    // Transform edges from 'from' and 'to' to 'source' and 'target'
+    mindMapData.edges = mindMapData.edges.map((edge) => ({
+      source: edge.from,
+      target: edge.to,
+    }));
 
-    let mindMapJson;
-    try {
-      mindMapJson = JSON.parse(mindMapData);
-    } catch (err) {
-      console.error("Error parsing mind map JSON:", err);
-      return res
-        .status(500)
-        .json({ message: "Invalid mind map format from AI." });
-    }
+    // Save the generated mind map to MongoDB
+    const newMindMap = new MindMap({
+      title: mindMapData.nodes[0]?.label || "Untitled Mind Map", // Use the first node's label as the title
+      nodes: mindMapData.nodes,
+      edges: mindMapData.edges,
+    });
 
-    // ✅ Validate mind map structure
-    if (
-      !mindMapJson.title ||
-      !Array.isArray(mindMapJson.nodes) ||
-      !Array.isArray(mindMapJson.edges)
-    ) {
-      return res.status(400).json({ message: "Invalid mind map structure." });
-    }
+    const savedMindMap = await newMindMap.save();
 
-    // ✅ Save the mind map to MongoDB
-    const newMindMap = new MindMap(mindMapJson);
-    await newMindMap.save();
-
-    res.status(201).json(newMindMap);
+    res.status(201).json(savedMindMap); // Respond with the saved mind map
   } catch (err) {
     console.error("Error generating mind map:", err);
     res.status(500).json({ message: "Error generating mind map" });

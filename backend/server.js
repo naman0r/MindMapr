@@ -1,5 +1,5 @@
 // Import necessary modules
-const express = require("express");
+const express = require("express"); // creating express server
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
@@ -7,7 +7,9 @@ require("dotenv").config();
 const mindmapRoutes = require("./routes/mindmapRoutes");
 
 // Initialize express app
-const app = express();
+const app = express(); //calling the express function
+
+// we can do app.put, app.delete, app.get, etc. any CRUD requests
 
 // Middleware
 app.use(express.json());
