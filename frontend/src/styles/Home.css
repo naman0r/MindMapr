@@ -1,0 +1,19 @@
+.home-container {
+  background-image: url("../assets/mindmapr-background-v1.jpg");
+  background-size: 110% auto;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh; /* Full screen height */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: rgb(0, 0, 0); /* Adjust text color for contrast */
+  padding-top: 200px;
+  filter: blur(5px);
+}
+
+#tn-home {
+  align-self: center;
+}
