@@ -6,7 +6,7 @@
 # Installed Dependencies:
 
 npm init -y
-npm install express mongoose cors dotenv body-parser nodemon
+npm install express mongoose cors dotenv body-parser nodemon framer-motion
 
 why?
 
@@ -15,6 +15,7 @@ why?
 - cors: To allow cross-origin requests (important for frontend-backend communication).
 - dotenv To load environment variables from a .env file.
 - nodemon Automatically restarts the server when files change.
+- framer motion for cool visual effects in the /home page
 
 # what i've done so far:
 
