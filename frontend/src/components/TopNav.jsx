@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/TopNav.css"; // Ensure styling is in TopNav.css
+import "../styles/TopNav.css";
 
 function TopNav() {
   return (
@@ -10,7 +10,7 @@ function TopNav() {
         </a>
       </div>
       <div className="topnav-center">
-        <a href="#" className="logo-link">
+        <a href="/" className="logo-link">
           <img src="/logo.svg" alt="MindMapr Logo" className="logo" />
         </a>
       </div>
