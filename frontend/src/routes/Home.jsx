@@ -5,6 +5,8 @@ import Footer from "../components/Footer.jsx";
 import background from "../assets/mindmapr-background-v1.jpg";
 import "../styles/Home.css";
 
+import { SpeedDial } from "primereact/speeddial";
+
 const Home = () => {
   return (
     <>

@@ -1,4 +1,4 @@
-a {
+/*a {
   font-weight: 500;
   color: #646cff;
   text-decoration: inherit;
@@ -10,4 +10,9 @@ a:hover {
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
-}
+} */
+
+@import "primereact/resources/themes/lara-light-blue/theme.css"; /* Change theme here */
+@import "primereact/resources/primereact.min.css";
+@import "primeicons/primeicons.css";
+@import "primeflex/primeflex.css";

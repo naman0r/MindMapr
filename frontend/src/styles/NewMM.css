@@ -1,35 +1,13 @@
 /* NewMM styles */
-.newmm-container {
+.new-mindmap-container {
   text-align: center;
   padding-top: 60px;
+  background-color: rgb(229, 225, 225);
+  height: 100%;
 }
 
-.newmm-content {
-  padding: 20px;
-}
-
-.session-notes {
-  width: 80%;
-  height: 200px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+.mindmap-form {
+  background-color: white;
   padding: 10px;
-  font-size: 16px;
-}
-
-.generate-button {
-  background-color: #37b5ff;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 18px;
-  margin-top: 20px;
-}
-
-.api-output-placeholder {
-  margin-top: 20px;
-  font-style: italic;
-  color: #888;
+  align-self: center;
 }

@@ -6,7 +6,7 @@
 # Installed Dependencies:
 
 npm init -y
-npm install express mongoose cors dotenv body-parser nodemon framer-motion
+npm install express mongoose cors dotenv body-parser nodemon framer-motion primereact quill
 
 why?
 

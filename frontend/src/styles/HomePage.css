@@ -1,9 +1,9 @@
 .homepage-container {
-  padding: 10% 1%;
+  padding: 8% 2%;
   text-align: center;
   background-color: #1e1e1e;
   color: white;
-  width: 98%;
+  width: 100%;
 }
 
 .mindmap-grid {
@@ -14,12 +14,16 @@
 }
 
 .mindmap-card {
-  background-color: #ececec;
+  background-color: #c89797;
   color: black;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
+}
+
+.mindmap-carr :hover {
+  color: black;
 }
 
 .mindmap-card h3 {
@@ -41,4 +45,14 @@
   color: white;
   font-size: 24px;
   font-weight: bold;
+}
+
+.button-container {
+  border: 1px solid;
+  border-radius: 10px;
+  padding: 0px 6px 6px 6px;
+  border-color: black;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
