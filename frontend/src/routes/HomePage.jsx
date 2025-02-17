@@ -11,7 +11,7 @@ function HomePage() {
   useEffect(() => {
     fetch("http://localhost:5001/api/mindmaps")
       .then((res) => res.json())
-      .then((data) => setMindMaps(data))
+      .then((data) => setMindMaps(data)) // setting mindmaps here, use useState to update them.
       .catch((err) => console.error("Error fetching mind maps:", err));
   }, []);
 

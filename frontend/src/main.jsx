@@ -24,6 +24,7 @@ const router = createBrowserRouter([
   { path: "/new", element: <NewMM /> },
   { path: "/mindmap/:id", element: <MindMapView /> }, // WOHOOOO NEW ROUTE
   { path: "/home", element: <Home /> },
+  { path: "/login", element: <Login /> },
 ]);
 
 createRoot(document.getElementById("root")).render(

@@ -1,4 +1,4 @@
-# Environment variables
+# Environment variables so github doesnt flip out
 .env
 
 # Node.js dependencies
