@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import TopNav from "../components/TopNav";
-import { auth } from "../Firebase"; // Import Firebase auth
-import Footer from "../components/Footer.jsx";
+import Footer from "../components/Footer";
+import { auth } from "../Firebase.js";
+import ReactFlow, { Background, Controls } from "reactflow";
+import "reactflow/dist/style.css";
 import "../styles/MindMapView.css";
 
 function MindMapView() {
-  const { id } = useParams(); // Get mind map ID from the URL
-  const [mindMap, setMindMap] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { id } = useParams(); // this is the get the current url so we can send the correct api call.
+  const [mindMap, setMindMap] = useState(null); // set initial state to null.
+  const [loading, setLoading] = useState(true); // I can use this to make a loading screen.
+  const [error, setError] = useState(null); // error setting, which will be returned, neef it foe debigging
 
   useEffect(() => {
     const fetchMindMap = async () => {
-      setLoading(true); // ✅ Ensure loading state is reset
+      setLoading(true);
 
       const user = auth.currentUser;
       if (!user) {
@@ -23,9 +25,9 @@ function MindMapView() {
       }
 
       try {
-        const userId = user.uid; // ✅ Get user ID from Firebase auth
+        console.log("Fetching mind map for user:", user.uid); // ✅ Debug log
         const response = await fetch(
-          `http://localhost:5001/api/mindmaps/${id}?userId=${userId}`
+          `http://localhost:5001/api/mindmaps/${id}?userId=${user.uid}`
         );
 
         if (!response.ok) {
@@ -34,8 +36,11 @@ function MindMapView() {
         }
 
         const data = await response.json();
+        console.log("Received mind map data:", data); // ✅ Debug log
+
         setMindMap(data);
       } catch (err) {
+        console.error("Error fetching mind map:", err);
         setError(err.message);
       } finally {
         setLoading(false);
@@ -45,72 +50,38 @@ function MindMapView() {
     fetchMindMap();
   }, [id]);
 
-  // ✅ Display loading message while fetching data
-  if (loading) {
-    return (
-      <div>
-        <TopNav />
-        <p>Loading mind map...</p>
-        <Footer />
-      </div>
-    );
-  }
+  if (loading) return <p>Loading mind map...</p>;
+  if (error) return <p>Error: {error}</p>;
+  if (!mindMap || !mindMap.nodes || mindMap.nodes.length === 0)
+    return <p>No mind map found.</p>;
 
-  // ✅ Display error if any issue occurs
-  if (error) {
-    return (
-      <div>
-        <TopNav />
-        <p>Error: {error}</p>
-        <Footer />
-      </div>
-    );
-  }
+  // 🟢 Convert nodes and edges into React Flow format
+  const nodes = mindMap.nodes.map((node) => ({
+    id: String(node.id), // Ensure ID is a string
+    data: { label: node.label },
+    position: { x: Math.random() * 400, y: Math.random() * 300 }, // Random positioning
+  }));
 
-  // ✅ Prevent crashes if mindMap is null
-  if (!mindMap) {
-    return (
-      <div>
-        <TopNav />
-        <p>No mind map found.</p>
-        <Footer />
-      </div>
-    );
-  }
+  const edges = mindMap.edges.map((edge) => ({
+    id: `e-${edge.source}-${edge.target}`,
+    source: String(edge.source),
+    target: String(edge.target),
+  }));
+
+  console.log("Generated nodes:", nodes); // ✅ Debug log
+  console.log("Generated edges:", edges); // ✅ Debug log
 
   return (
     <div>
       <TopNav />
-      <div className="mindmap-view-container">
+      <div className="mindmap-container">
         <h2>{mindMap.title}</h2>
-
-        <h3>Nodes:</h3>
-        {mindMap.nodes.length > 0 ? (
-          <ul>
-            {mindMap.nodes.map((node, index) => (
-              <li key={index}>
-                <strong>ID:</strong> {node.id} <br />
-                <strong>Label:</strong> {node.label}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No nodes available.</p>
-        )}
-
-        <h3>Edges:</h3>
-        {mindMap.edges.length > 0 ? (
-          <ul>
-            {mindMap.edges.map((edge, index) => (
-              <li key={index}>
-                <strong>From:</strong> {edge.source} <br />
-                <strong>To:</strong> {edge.target}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No edges available.</p>
-        )}
+        <div className="mindmap-visual">
+          <ReactFlow nodes={nodes} edges={edges}>
+            <Background />
+            <Controls />
+          </ReactFlow>
+        </div>
       </div>
       <Footer />
     </div>
