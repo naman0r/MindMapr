@@ -74,4 +74,19 @@ router.get("/", async (req, res) => {
   }
 });
 
+//  @route GET /api/mindmaps/:id
+//  @desc Get a specific mind map by ID
+router.get("/:id", async (req, res) => {
+  try {
+    const mindmap = await MindMap.findById(req.params.id);
+    if (!mindmap) {
+      return res.status(404).json({ message: "Mind Map not found" });
+    }
+    res.json(mindmap);
+  } catch (err) {
+    console.error("Error fetching mind map:", err);
+    res.status(500).json({ message: "Error fetching mind map" });
+  }
+});
+
 module.exports = router;
