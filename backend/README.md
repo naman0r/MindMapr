@@ -6,7 +6,7 @@
 
 docker start mindmapr-backend
 
-#### to rebuild after making major changes:
+#### to rebuild docker container after making major changes:
 
 1. docker rm mindmapr-backend
 2. docker build -t mindmapr-backend .

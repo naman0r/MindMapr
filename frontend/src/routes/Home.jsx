@@ -55,7 +55,7 @@ const Home = () => {
           View Existing
         </motion.a>
         <motion.a
-          href="/"
+          href="/pricing"
           whileHover={{ scale: 1.1, boxShadow: "0px 0px 20px #37b5ff" }}
           whileTap={{ scale: 0.95 }}
           className="cta-button"

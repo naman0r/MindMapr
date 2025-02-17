@@ -1,4 +1,5 @@
-# similar to the .gitinore file, i dont want docker to be tracking unnesecary files that will make it slower. 
+# similar to the .gitinore file, i dont want docker to be tracking unnesecary
+#  files that will make it slower. 
 node_modules/
 npm-debug.log
 Dockerfile

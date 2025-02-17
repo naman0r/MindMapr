@@ -13,6 +13,8 @@ import NewMM from "./routes/NewMM.jsx";
 import MindMapView from "./routes/MindMapView.jsx"; // New component
 import Profile from "./routes/Profile.jsx";
 import Home from "./routes/Home.jsx";
+import Pricing from "./routes/Pricing.jsx";
+import About from "./routes/About.jsx";
 
 const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;
 
@@ -26,6 +28,8 @@ const router = createBrowserRouter([
   { path: "/home", element: <Home /> },
   { path: "/login", element: <Profile /> },
   { path: "*", element: <ErrorPage404 /> },
+  { path: "/pricing", element: <Pricing /> },
+  { path: "/about", element: <About /> },
 ]);
 
 createRoot(document.getElementById("root")).render(
