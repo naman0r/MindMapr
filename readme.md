@@ -95,3 +95,18 @@ technologies used:
 
 - Visualization:
   - figureout a library to use (ideas currently are react-flow-renderer)
+
+# **_PROGRESS_**:
+
+[x] Containerize Backend [done]
+[ ] make pricing page (just for fun)
+[ ] WORK ON INTEGRATING WITH REACT-FLOW-RENDERER
+[ ] Figure out hosting
+[ ] import font from (google fonts)[fonts.google.com]
+[ ] Theme switching between dark and light mode.
+[ ] Work on a small logo icon
+[ ] Pre built templates? eg project planning, study notes, brainstorming, etc.
+[ ] LOGIN WITH FIREBASE!!!! COMPLETE IMPLEMENTATION
+[ ] Look into Next.js for SEO and if it will be easy to implement (i heard its easy to implement on top of react but idk yet)
+[ ] Make the UI AWESOME!!!!!!!
+[ ] Once logged in, introduce progress tracking and badges.
