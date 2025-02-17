@@ -8,7 +8,7 @@ import env from "react-dotenv";
 import App from "./routes/App.jsx";
 import HomePage from "./routes/HomePage.jsx";
 import MindMapForm from "./routes/MindMapForm.jsx";
-import BlankTemplate from "./routes/BlankTemplate.jsx";
+import ErrorPage404 from "./routes/ErrorPage404.jsx";
 import NewMM from "./routes/NewMM.jsx";
 import MindMapView from "./routes/MindMapView.jsx"; // New component
 import Profile from "./routes/Profile.jsx";
@@ -25,6 +25,7 @@ const router = createBrowserRouter([
   { path: "/mindmap/:id", element: <MindMapView /> }, // WOHOOOO NEW ROUTE
   { path: "/home", element: <Home /> },
   { path: "/login", element: <Profile /> },
+  { path: "*", element: <ErrorPage404 /> },
 ]);
 
 createRoot(document.getElementById("root")).render(

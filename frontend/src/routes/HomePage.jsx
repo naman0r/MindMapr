@@ -75,6 +75,7 @@ function HomePage() {
               <p>Ready to create your next Mind Map?</p>
             </>
           ) : (
+            // if user not logged in, then prompt them to login.
             <>
               <h1>Welcome to MindMapr</h1>
               <p>Please log in to view your mind maps.</p>
