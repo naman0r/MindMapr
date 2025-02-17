@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TopNav from "../components/TopNav";
+import "../styles/NewMM.css";
+
+import { Editor } from "primereact/editor";
+import { Button } from "primereact/button";
+import "primereact/resources/themes/lara-light-blue/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
 
 function NewMM() {
   const [notes, setNotes] = useState("");
@@ -9,7 +16,7 @@ function NewMM() {
 
   // Handle the form submission
   const handleGenerateMindMap = async (event) => {
-    event.preventDefault(); // Prevent default form submit
+    event.preventDefault();
     setLoading(true);
 
     try {
@@ -20,10 +27,7 @@ function NewMM() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            // The backend expects { notes: "...user text..." }
-            notes: notes,
-          }),
+          body: JSON.stringify({ notes }),
         }
       );
 
@@ -35,8 +39,8 @@ function NewMM() {
       console.log("Mind map generated:", data);
       alert("Mind map generated successfully!");
 
-      // Optionally navigate somewhere, e.g., back to the homepage or a MindMapView
-      // navigate("/");
+      // Navigate to the newly created mind map
+      navigate(`/mindmap/${data._id}`);
     } catch (error) {
       console.error("Error generating mind map:", error.message);
       alert(error.message);
@@ -50,16 +54,23 @@ function NewMM() {
       <TopNav />
       <div className="new-mindmap-container">
         <h2>Create a New Mind Map</h2>
-        <form onSubmit={handleGenerateMindMap}>
-          <textarea
-            placeholder="Enter your session notes here..."
+
+        <form onSubmit={handleGenerateMindMap} className="mindmap-form">
+          {/* ✅ PrimeReact Rich Text Editor */}
+          <Editor
             value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-            required
+            onTextChange={(e) => setNotes(e.htmlValue)}
+            style={{ height: "550px", marginBottom: "20px" }}
           />
-          <button type="submit" disabled={loading}>
-            {loading ? "Generating..." : "Generate Mind Map"}
-          </button>
+
+          {/* ✅ Generate Button */}
+          <Button
+            type="submit"
+            label={loading ? "Generating..." : "Generate Mind Map"}
+            icon="pi pi-cog"
+            loading={loading}
+            className="p-button-primary p-button-lg"
+          />
         </form>
       </div>
     </div>
