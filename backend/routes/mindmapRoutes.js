@@ -89,4 +89,19 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+router.delete("/:id", async (req, res) => {
+  try {
+    const deletedMindMap = await MindMap.findByIdAndDelete(req.params.id);
+
+    if (!deletedMindMap) {
+      return res.status(404).json({ message: "Mind Map not found" });
+    }
+
+    res.status(200).json({ message: "Mind Map deleted successfully" });
+  } catch (err) {
+    console.error("Error deleting mindmap", err);
+    res.status(400).json({ message: "error deleting mindmap." });
+  }
+});
+
 module.exports = router;
