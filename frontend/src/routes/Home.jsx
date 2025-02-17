@@ -44,6 +44,22 @@ const Home = () => {
         >
           Create a Mind Map
         </motion.a>
+        <motion.a
+          href="/"
+          whileHover={{ scale: 1.1, boxShadow: "0px 0px 20px #37b5ff" }}
+          whileTap={{ scale: 0.95 }}
+          className="cta-button"
+        >
+          View Existing
+        </motion.a>
+        <motion.a
+          href="/"
+          whileHover={{ scale: 1.1, boxShadow: "0px 0px 20px #37b5ff" }}
+          whileTap={{ scale: 0.95 }}
+          className="cta-button"
+        >
+          View Pricing
+        </motion.a>
       </div>
 
       <Footer />
