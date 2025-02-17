@@ -1,17 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import TopNav from "../components/TopNav";
 import Footer from "../components/Footer";
-import { auth } from "../Firebase.js";
-import ReactFlow, { Background, Controls } from "reactflow";
+import { auth } from "../Firebase";
+import ReactFlow, {
+  Background,
+  Controls,
+  MiniMap,
+  applyNodeChanges,
+  applyEdgeChanges,
+  useNodesState,
+  useEdgesState,
+} from "reactflow";
 import "reactflow/dist/style.css";
 import "../styles/MindMapView.css";
 
 function MindMapView() {
-  const { id } = useParams(); // this is the get the current url so we can send the correct api call.
-  const [mindMap, setMindMap] = useState(null); // set initial state to null.
-  const [loading, setLoading] = useState(true); // I can use this to make a loading screen.
-  const [error, setError] = useState(null); // error setting, which will be returned, neef it foe debigging
+  const { id } = useParams();
+  const [mindMap, setMindMap] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // ReactFlow States
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
   useEffect(() => {
     const fetchMindMap = async () => {
@@ -25,7 +37,7 @@ function MindMapView() {
       }
 
       try {
-        console.log("Fetching mind map for user:", user.uid); // ✅ Debug log
+        console.log("Fetching mind map for user:", user.uid);
         const response = await fetch(
           `http://localhost:5001/api/mindmaps/${id}?userId=${user.uid}`
         );
@@ -36,8 +48,24 @@ function MindMapView() {
         }
 
         const data = await response.json();
-        console.log("Received mind map data:", data); // ✅ Debug log
+        console.log("Received mind map data:", data);
 
+        // Convert nodes into React Flow format (making them draggable)
+        const formattedNodes = data.nodes.map((node, index) => ({
+          id: String(node.id),
+          data: { label: node.label },
+          position: { x: index * 150, y: 100 }, // Initial positioning
+          draggable: true,
+        }));
+
+        const formattedEdges = data.edges.map((edge) => ({
+          id: `e-${edge.source}-${edge.target}`,
+          source: String(edge.source),
+          target: String(edge.target),
+        }));
+
+        setNodes(formattedNodes);
+        setEdges(formattedEdges);
         setMindMap(data);
       } catch (err) {
         console.error("Error fetching mind map:", err);
@@ -50,26 +78,21 @@ function MindMapView() {
     fetchMindMap();
   }, [id]);
 
+  // Track changes when user moves nodes
+  const onNodesChangeHandler = useCallback(
+    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
+    [setNodes]
+  );
+
+  const onEdgesChangeHandler = useCallback(
+    (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
+    [setEdges]
+  );
+
   if (loading) return <p>Loading mind map...</p>;
   if (error) return <p>Error: {error}</p>;
   if (!mindMap || !mindMap.nodes || mindMap.nodes.length === 0)
     return <p>No mind map found.</p>;
-
-  // 🟢 Convert nodes and edges into React Flow format
-  const nodes = mindMap.nodes.map((node) => ({
-    id: String(node.id), // Ensure ID is a string
-    data: { label: node.label },
-    position: { x: Math.random() * 400, y: Math.random() * 300 }, // Random positioning
-  }));
-
-  const edges = mindMap.edges.map((edge) => ({
-    id: `e-${edge.source}-${edge.target}`,
-    source: String(edge.source),
-    target: String(edge.target),
-  }));
-
-  console.log("Generated nodes:", nodes); // ✅ Debug log
-  console.log("Generated edges:", edges); // ✅ Debug log
 
   return (
     <div>
@@ -77,7 +100,14 @@ function MindMapView() {
       <div className="mindmap-container">
         <h2>{mindMap.title}</h2>
         <div className="mindmap-visual">
-          <ReactFlow nodes={nodes} edges={edges}>
+          <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            onNodesChange={onNodesChangeHandler} // ✅ Allows moving nodes
+            onEdgesChange={onEdgesChangeHandler}
+            fitView
+          >
+            <MiniMap />
             <Background />
             <Controls />
           </ReactFlow>
