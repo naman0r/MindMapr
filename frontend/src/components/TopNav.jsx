@@ -16,7 +16,9 @@ function TopNav() {
       </div>
       <div className="topnav-right">
         <div className="profile-icon">
-          <img src="../../public/guesticon.svg" alt="" />
+          <a href="/profile">
+            <img src="../../public/guesticon.svg" alt="" />
+          </a>
         </div>
       </div>
     </header>

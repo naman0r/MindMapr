@@ -1,11 +1,11 @@
 import React from "react";
-import "../styles/App.css";
+import "./Footer.css";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
     <div className="footer">
-      <Link to="/">Home</Link> | <Link to="/new">New Mind Map</Link>
+      <p>@2025 MindMapr, by Naman Rusia All rights Reserved. </p>
     </div>
   );
 };

@@ -20,6 +20,11 @@ const MindMapSchema = new mongoose.Schema({
     type: Array,
     default: [],
   },
+  userId: {
+    type: String,
+    required: true,
+  },
+
   createdAt: {
     type: Date,
     default: Date.now,

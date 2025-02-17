@@ -6,7 +6,7 @@
 # Installed Dependencies:
 
 npm init -y
-npm install express mongoose cors dotenv body-parser nodemon framer-motion primereact quill
+npm install express mongoose cors dotenv body-parser nodemon framer-motion primereact quill firebase
 
 why?
 
@@ -108,5 +108,4 @@ technologies used:
 - [ ] Pre built templates? eg project planning, study notes, brainstorming, etc.
 - [ ] LOGIN WITH FIREBASE!!!! COMPLETE IMPLEMENTATION
 - [ ] Look into Next.js for SEO and if it will be easy to implement (i heard its easy to implement on top of react but idk yet)
-- [ ] Make the UI AWESOME!!!!!!!
-- [ ] Once logged in, introduce progress tracking and badges.
+- [ ] Make the UI AWESOME!!!!!!! -[ ] Once logged in, introduce progress tracking and badges.

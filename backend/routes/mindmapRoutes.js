@@ -17,10 +17,10 @@ const openaiClient = new openai.OpenAIApi(
 //  @route POST /api/mindmaps/generate
 //  @desc Generate a mind map using OpenAI and save it to MongoDB
 router.post("/generate", async (req, res) => {
-  const { notes } = req.body;
+  const { notes, userId } = req.body;
 
-  if (!notes) {
-    return res.status(400).json({ message: "Notes are required" });
+  if (!notes || !userId) {
+    return res.status(400).json({ message: "Notes and userId are required" });
   }
 
   try {
@@ -52,6 +52,8 @@ router.post("/generate", async (req, res) => {
       title: mindMapData.nodes[0]?.label || "Untitled Mind Map", // Use the first node's label as the title
       nodes: mindMapData.nodes,
       edges: mindMapData.edges,
+      userId,
+      createdAt: new Date(),
     });
 
     const savedMindMap = await newMindMap.save();
@@ -67,7 +69,12 @@ router.post("/generate", async (req, res) => {
 // ✅ @desc Get all mind maps
 router.get("/", async (req, res) => {
   try {
-    const mindmaps = await MindMap.find();
+    const { userId } = req.query;
+
+    if (!userId) {
+      return res.status(400).json({ message: "User ID required" });
+    }
+    const mindmaps = await MindMap.find({ userId }); // filter by userId
     res.json(mindmaps);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -77,11 +84,24 @@ router.get("/", async (req, res) => {
 //  @route GET /api/mindmaps/:id
 //  @desc Get a specific mind map by ID
 router.get("/:id", async (req, res) => {
+  const { userId } = req.query; // ✅ Get userId from query params
+
+  if (!userId) {
+    return res.status(400).json({ message: "User ID required" });
+  }
+
   try {
     const mindmap = await MindMap.findById(req.params.id);
+
     if (!mindmap) {
       return res.status(404).json({ message: "Mind Map not found" });
     }
+
+    if (mindmap.userId !== userId) {
+      // ✅ Restrict access to the owner
+      return res.status(403).json({ message: "Unauthorized" });
+    }
+
     res.json(mindmap);
   } catch (err) {
     console.error("Error fetching mind map:", err);
@@ -90,17 +110,30 @@ router.get("/:id", async (req, res) => {
 });
 
 router.delete("/:id", async (req, res) => {
-  try {
-    const deletedMindMap = await MindMap.findByIdAndDelete(req.params.id);
+  const { id } = req.params;
+  const { userId } = req.query; // ✅ Expect userId in query params
 
-    if (!deletedMindMap) {
+  if (!userId) {
+    return res.status(400).json({ message: "User ID required" });
+  }
+
+  try {
+    const mindmap = await MindMap.findById(id);
+
+    if (!mindmap) {
       return res.status(404).json({ message: "Mind Map not found" });
     }
 
+    if (mindmap.userId !== userId) {
+      // ✅ Ensure user owns the mind map
+      return res.status(403).json({ message: "Unauthorized" });
+    }
+
+    await mindmap.deleteOne();
     res.status(200).json({ message: "Mind Map deleted successfully" });
   } catch (err) {
-    console.error("Error deleting mindmap", err);
-    res.status(400).json({ message: "error deleting mindmap." });
+    console.error("Error deleting mind map:", err);
+    res.status(500).json({ message: "Error deleting mind map" });
   }
 });
 
