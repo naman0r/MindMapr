@@ -12,8 +12,45 @@ import ReactFlow, {
   useNodesState,
   useEdgesState,
 } from "reactflow";
+import dagre from "dagre"; // Import Dagre for layout calculations
 import "reactflow/dist/style.css";
 import "../styles/MindMapView.css";
+
+// Create a new Dagre graph instance
+const dagreGraph = new dagre.graphlib.Graph();
+dagreGraph.setDefaultEdgeLabel(() => ({}));
+
+/**
+ * Function to generate a hierarchical layout for the nodes using Dagre.
+ * @param {Array} nodes - The list of nodes in the mind map.
+ * @param {Array} edges - The list of edges connecting the nodes.
+ * @returns {Array} - The formatted nodes with updated positions.
+ */
+const getLayoutedNodes = (nodes, edges) => {
+  dagreGraph.setGraph({ rankdir: "TB", nodesep: 50, ranksep: 100 }); // Top to Bottom layout
+
+  // Add nodes to Dagre graph
+  nodes.forEach((node) => {
+    dagreGraph.setNode(node.id, { width: 180, height: 60 }); // Define node size
+  });
+
+  // Add edges to Dagre graph
+  edges.forEach((edge) => {
+    dagreGraph.setEdge(edge.source, edge.target);
+  });
+
+  // Compute the layout
+  dagre.layout(dagreGraph);
+
+  // Update node positions
+  return nodes.map((node) => {
+    const nodeWithPosition = dagreGraph.node(node.id);
+    return {
+      ...node,
+      position: { x: nodeWithPosition.x, y: nodeWithPosition.y },
+    };
+  });
+};
 
 function MindMapView() {
   const { id } = useParams();
@@ -21,7 +58,7 @@ function MindMapView() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // ReactFlow States
+  // React Flow state for nodes and edges
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
@@ -38,6 +75,8 @@ function MindMapView() {
 
       try {
         console.log("Fetching mind map for user:", user.uid);
+
+        // Fetch the mind map data from the backend
         const response = await fetch(
           `http://localhost:5001/api/mindmaps/${id}?userId=${user.uid}`
         );
@@ -50,19 +89,23 @@ function MindMapView() {
         const data = await response.json();
         console.log("Received mind map data:", data);
 
-        // Convert nodes into React Flow format (making them draggable)
-        const formattedNodes = data.nodes.map((node, index) => ({
+        // Convert nodes into React Flow format
+        let formattedNodes = data.nodes.map((node) => ({
           id: String(node.id),
           data: { label: node.label },
-          position: { x: index * 150, y: 100 }, // Initial positioning
+          position: { x: 0, y: 0 }, // Temporary position, will be updated by Dagre
           draggable: true,
         }));
 
-        const formattedEdges = data.edges.map((edge) => ({
+        // Convert edges into React Flow format
+        let formattedEdges = data.edges.map((edge) => ({
           id: `e-${edge.source}-${edge.target}`,
           source: String(edge.source),
           target: String(edge.target),
         }));
+
+        // Apply Dagre layout to spread out nodes
+        formattedNodes = getLayoutedNodes(formattedNodes, formattedEdges);
 
         setNodes(formattedNodes);
         setEdges(formattedEdges);
@@ -78,12 +121,13 @@ function MindMapView() {
     fetchMindMap();
   }, [id]);
 
-  // Track changes when user moves nodes
+  // Handle node movements
   const onNodesChangeHandler = useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
     [setNodes]
   );
 
+  // Handle edge changes
   const onEdgesChangeHandler = useCallback(
     (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
     [setEdges]
@@ -103,7 +147,7 @@ function MindMapView() {
           <ReactFlow
             nodes={nodes}
             edges={edges}
-            onNodesChange={onNodesChangeHandler} // ✅ Allows moving nodes
+            onNodesChange={onNodesChangeHandler}
             onEdgesChange={onEdgesChangeHandler}
             fitView
           >

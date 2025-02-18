@@ -2,8 +2,6 @@ import React from "react";
 import "../styles/TopNav.css";
 import { useState, useEffect } from "react";
 
-import "./TopNav.css";
-
 import { auth } from "../Firebase";
 
 function TopNav() {

@@ -18,7 +18,7 @@ body {
   align-items: center;
   padding: 10px 10px 10px 0px;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 80%);
-  z-index: 1000;
+  z-index: 1000; /* to ensure it is alwayd on top*/
 }
 
 .topnav-left {
@@ -44,4 +44,10 @@ body {
 
 .topnav img {
   height: 40px;
+}
+
+.profile-image {
+  width: 40px;
+  border-radius: 50%; /*  Makes it a circle */
+  object-fit: cover; /* ✅Ensures it doesn’t stretch */
 }

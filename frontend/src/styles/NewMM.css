@@ -1,7 +1,7 @@
 /* NewMM styles */
 .new-mindmap-container {
   text-align: center;
-  padding-top: 60px;
+  padding: 60px;
   background-color: rgb(229, 225, 225);
   height: 100%;
 }

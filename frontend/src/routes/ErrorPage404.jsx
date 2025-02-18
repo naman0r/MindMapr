@@ -5,8 +5,8 @@ import "../styles/App.css"; /* or whatveer styling you want*/
 import TopNav from "../components/TopNav.jsx";
 import "../styles/ErrorPage404.css";
 import Footer from "../components/Footer.jsx";
-import { createBrowserRouter, RouterProvider } from "react-router-dom"; // ✅ Correct import
-import { Link } from "react-router-dom"; // ✅ Add Link for navigation
+import { createBrowserRouter, RouterProvider } from "react-router-dom"; //  Correct import
+import { Link } from "react-router-dom"; // Add Link for navigation
 
 function BlankTemplate() {
   return (

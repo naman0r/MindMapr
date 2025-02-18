@@ -30,7 +30,7 @@ router.post("/generate", async (req, res) => {
         {
           role: "system",
           content:
-            "You are a mind map generator. Based on the user's notes, generate a JSON object with two arrays: 'nodes' and 'edges'. The 'nodes' array should include objects with 'id' (unique identifier) and 'label' (text). The 'edges' array should include objects with 'from' and 'to' fields referencing node IDs from the 'nodes' array.",
+            "You are a mind map generator. Based on the user's notes, generate a JSON object with two arrays: 'nodes' and 'edges'. The 'nodes' array should include objects with 'id' (unique identifier) and 'label' (text). The 'edges' array should include objects with 'from' and 'to' fields referencing node IDs from the 'nodes' array. As your role as a Mind Map generator, make sure to include some nodes with more detail, and don't diregard major information from the notes. Make it as detailed and well organized as possible. ",
         },
         {
           role: "user",

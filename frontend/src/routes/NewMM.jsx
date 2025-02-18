@@ -4,6 +4,9 @@ import { auth } from "../Firebase"; // ✅ Import Firebase auth
 import TopNav from "../components/TopNav";
 import { Button } from "primereact/button";
 
+import "../styles/NewMM.css";
+import { Editor } from "primereact/editor";
+
 function NewMM() {
   const [notes, setNotes] = useState("");
   const [loading, setLoading] = useState(false);
@@ -73,12 +76,14 @@ function NewMM() {
       <TopNav />
       <div className="new-mindmap-container">
         <h2>Create a New Mind Map</h2>
-        <form onSubmit={handleGenerateMindMap}>
-          <textarea
-            placeholder="Enter your session notes here..."
+        <form onSubmit={handleGenerateMindMap} className="new-mm-form">
+          <Editor
             value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-            required
+            onTextChange={(e) => setNotes(e.htmlValue)}
+            style={{
+              height: "550px",
+              marginBottom: "20px",
+            }}
           />
           <Button
             label={loading ? "Generating..." : "Generate Mind Map"}

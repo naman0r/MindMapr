@@ -1,3 +1,23 @@
-.login-container {
+.profile-container {
   padding: 100px;
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    90deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(90, 90, 176, 1) 35%,
+    rgba(0, 212, 255, 1) 100%
+  );
+  height: 100vh;
+}
+
+.profile-content {
+  display: grid;
+  align-items: center;
+  align-self: center;
+  justify-content: center;
+  padding: 100px, 400px;
+  gap: 10px;
+  border: solid;
+  border-color: rgb(241, 241, 241);
+  border-radius: 100px;
 }
