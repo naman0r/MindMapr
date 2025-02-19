@@ -65,8 +65,8 @@ router.post("/generate", async (req, res) => {
   }
 });
 
-// ✅ @route GET /api/mindmaps
-// ✅ @desc Get all mind maps
+//  @route GET /api/mindmaps
+//  @desc Get all mind maps
 router.get("/", async (req, res) => {
   try {
     const { userId } = req.query;
@@ -125,7 +125,7 @@ router.delete("/:id", async (req, res) => {
     }
 
     if (mindmap.userId !== userId) {
-      // ✅ Ensure user owns the mind map
+      //  Ensure user owns the mind map
       return res.status(403).json({ message: "Unauthorized" });
     }
 
