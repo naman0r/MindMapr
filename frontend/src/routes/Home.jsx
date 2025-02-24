@@ -8,6 +8,7 @@ import "../styles/Home.css";
 import { SpeedDial } from "primereact/speeddial";
 
 const Home = () => {
+  console.log(import.meta.env.VITE_BACKEND_URL);
   return (
     <>
       <TopNav id="tn-home" />

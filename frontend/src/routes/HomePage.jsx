@@ -9,7 +9,7 @@ import "primereact/resources/themes/lara-light-blue/theme.css"; // Theme
 
 function HomePage() {
   const [mindMaps, setMindMaps] = useState([]);
-  const [user, setUser] = useState(null); // ✅ Store logged-in user
+  const [user, setUser] = useState(null); //  Store logged-in user
 
   // ✅ Listen for authentication state changes
   useEffect(() => {
@@ -25,17 +25,17 @@ function HomePage() {
     return () => unsubscribe();
   }, []);
 
-  // ✅ Fetch only the logged-in user's mind maps
+  //  Fetch only the logged-in user's mind maps
   useEffect(() => {
     if (!user) return;
 
-    fetch(`http://localhost:5001/api/mindmaps?userId=${user.uid}`)
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/mindmaps?userId=${user.uid}`)
       .then((res) => res.json())
       .then((data) => setMindMaps(data))
       .catch((err) => console.error("Error fetching mind maps:", err));
   }, [user]);
 
-  // ✅ Delete a mind map (Only if the user is the owner)
+  //  Delete a mind map (Only if the user is the owner)
   const handleDelete = async (id) => {
     if (!user) {
       alert("You must be logged in to delete a mind map.");
@@ -49,12 +49,14 @@ function HomePage() {
 
     try {
       const response = await fetch(
-        `http://localhost:5001/api/mindmaps/${id}?userId=${user.uid}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/mindmaps/${id}?userId=${
+          user.uid
+        }`,
         { method: "DELETE" }
       );
 
       if (response.ok) {
-        // ✅ Remove the deleted mind map from state
+        //  Remove the deleted mind map from state
         setMindMaps(mindMaps.filter((map) => map._id !== id));
       } else {
         console.error("Failed to delete mind map");

@@ -11,7 +11,7 @@ function MindMapForm() {
 
   // Fetch mind maps from the backend
   useEffect(() => {
-    fetch("http://localhost:5001/api/mindmaps")
+    fetch("${import.meta.env.VITE_BACKEND_URL}/api/mindmaps")
       .then((response) => response.json())
       .then((data) => {
         setMindMaps(data);
@@ -26,13 +26,16 @@ function MindMapForm() {
     const newMindMap = { title, nodes, edges };
 
     try {
-      const response = await fetch("http://localhost:5001/api/mindmaps", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newMindMap),
-      });
+      const response = await fetch(
+        "${import.meta.env.VITE_BACKEND_URL}/api/mindmaps",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newMindMap),
+        }
+      );
 
       const data = await response.json();
       console.log("Mind map created:", data);
@@ -47,7 +50,7 @@ function MindMapForm() {
   // Handle delete request
   const handleDelete = async (id) => {
     try {
-      await fetch(`http://localhost:5001/api/mindmaps/${id}`, {
+      await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/mindmaps/${id}`, {
         method: "DELETE",
       });
 

@@ -78,7 +78,9 @@ function MindMapView() {
 
         // Fetch the mind map data from the backend
         const response = await fetch(
-          `http://localhost:5001/api/mindmaps/${id}?userId=${user.uid}`
+          `${import.meta.env.VITE_BACKEND_URL}/api/mindmaps/${id}?userId=${
+            user.uid
+          }`
         );
 
         if (!response.ok) {

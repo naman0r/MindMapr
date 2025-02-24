@@ -2,17 +2,24 @@
  * This file contains the API routes to handle CRUD operations (Create, Read, Update, Delete) for mind maps.
  */
 
+const functions = require("firebase-functions");
+
 const express = require("express");
 const router = express.Router();
 const MindMap = require("../models/MindMap");
-const openai = require("openai");
+const { OpenAI } = require("openai");
 
 //  Initialize OpenAI API once
-const openaiClient = new openai.OpenAIApi(
-  new openai.Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
-  })
-);
+// const openaiClient = new OpenAI.OpenAIApi(
+//   new openai.Configuration({
+//     apiKey: functions.config().openai.key,
+//   })
+// );
+
+// Initialize OpenAI API
+const openaiClient = new OpenAI({
+  apiKey: functions.config().openai.key,
+});
 
 //  @route POST /api/mindmaps/generate
 //  @desc Generate a mind map using OpenAI and save it to MongoDB
