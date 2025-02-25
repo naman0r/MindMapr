@@ -4,7 +4,7 @@ const express = require("express"); // Create Express server
 const mongoose = require("mongoose");
 const cors = require("cors");
 
-const { onRequest } = require("firebase-functions/v2/https");
+// const { onRequest } = require("firebase-functions/v2/https");
 
 // Import routes (ensure this path is correct)
 const mindmapRoutes = require("./routes/mindmapRoutes");
@@ -16,9 +16,11 @@ const app = express(); // Calling the express function
 app.use(express.json());
 app.use(cors());
 
-// Load environment variables from Firebase Functions Config
-const MONGO_URI = functions.config().mongodb.uri;
-const OPENAI_API_KEY = functions.config().openai.key;
+const { defineString } = require("firebase-functions/params");
+
+// Retrieve secrets from Firebase Functions
+const MONGO_URI = defineString("MONGO_URI");
+const OPENAI_API_KEY = defineString("OPENAI_API_KEY");
 
 // Check for required environment variables
 if (!MONGO_URI || !OPENAI_API_KEY) {
@@ -52,10 +54,10 @@ app.use((req, res, next) => {
 });
 
 // Set Firebase Functions to listen on PORT 8080
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// const PORT = process.env.PORT || 8080;
+// app.listen(PORT, () => {
+//   console.log(`Server running on port ${PORT}`);
+// });
 
 // Export the Express app as a Firebase Function
 exports.api = onRequest(app);
