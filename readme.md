@@ -1,4 +1,23 @@
-# MongoDB (what it is and why use it instead of sql or sqllite):
+# MindMapr: A modern, AI-powered Study Tool. 
+- Demo: [Link](https://www.youtube.com/watch?v=SWPsYICRIOQ), please check it out!
+- Tech Stack: Node.js, Express, React.js, Firebase (auth), MongoDB (Atlas clusters), React Router Dom, React-Flow-Renderer, and Dagree-trees.
+- Blurb: this is a really cool full-stack web app that takes a set of notes from the user and turns it into beautiful visualized notes, which are split up into understandable bites
+- ![image](https://github.com/user-attachments/assets/c2abe96f-07ef-40c6-a05c-d0e257456bec)
+
+- Login Functionalities using google (Firebase), backend Authorization, and Authentication.
+- if you enjoyed seeing this work, check out some more of my work at [my personal website](https://namanrusia.com/), or my [LinkedIn](https://www.linkedin.com/in/namanrusia/), or email me at naman.rusia14@gmail.com! I am looking for interships and freelance development opportunities, and I would be extremely interested!
+
+
+
+## developers, clone!
+- if you would like to make this better, please clone this repository, and make .env files in the frontend and backend folders
+- copy the .env.template template files into both the .env files, and fill out the values. You will have to create a MongoDB Atlas Cluster to obtain a Mongo URI, and you will need to create an API access key on OpenAI playground.
+
+
+
+
+
+### MongoDB (what it is and why use it instead of sql or sqllite):
 
 - a document based database
 - gets rid of a lot of inefficiencies that come with traditional databses (eg: sql)
